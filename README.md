@@ -1,0 +1,46 @@
+# 基於 RAG 的台灣旅遊助手
+
+一個使用RAG技術的台灣旅遊景點助手。系統可以根據用戶需求，透過檢索詳細的景點資料，並讓LLM生成旅遊行程安排、景點介紹、景點推薦。
+
+## 安裝與配置
+
+### 前置需求
+- Docker 
+
+### API 金鑰註冊
+- 請至 [Google AI Studio](https://aistudio.google.com/apikey) 註冊 Gemini API Key
+
+
+### 環境設定
+1. clone專案或下載原始碼
+2. 在 `backend/app/` 中建立.env檔案
+3. 在 `backend/app/.env` 中設定Gemini API 金鑰以及自訂的model_name(Gemini)、secret_key(可為任意字串)：
+   ```
+   gemini_api_key="YOUR_GEMINI_API_KEY" 
+   model_name="gemini-2.0-flash"
+   secret_key="jwtsecretkey"
+   ```
+
+## 運行方式
+
+### 使用 Docker
+```bash
+# 構建所有容器
+docker-compose build
+
+# 啟動所有容器
+docker-compose up -d
+
+# 停止所有容器
+docker-compose down
+
+```
+
+### 使用系統
+1. 開啟瀏覽器訪問 http://localhost
+2. 請先註冊或登入系統
+3. 在輸入框中輸入您的商品需求，例如：「我想去陽明山一日遊，請問有哪些推薦的景點?」
+4. 點擊「送出」按鈕，系統將開始處理您的請求
+5. 稍等片刻，系統將產生景點資訊
+
+

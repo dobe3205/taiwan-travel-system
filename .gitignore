@@ -1,0 +1,5 @@
+.env
+*/\.env
+backend\app\.env
+eval_rag\.env
+backend/chroma_db/chroma.sqlite3

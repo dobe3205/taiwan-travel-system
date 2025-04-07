@@ -1,0 +1,86 @@
+<div class="container">
+  <h1 class="page-title">歷史紀錄</h1>
+  
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  
+  <div class="loading-container" *ngIf="isLoading && queryHistory.length === 0">
+    <app-loading-spinner [message]="'載入查詢記錄中...'" [size]="40"></app-loading-spinner>
+  </div>
+  
+  <div class="no-records" *ngIf="!isLoading && queryHistory.length === 0">
+    <p>您尚未進行任何旅遊查詢。</p>
+    <a routerLink="/product-comparison" class="start-query-btn">開始您的旅遊查詢</a>
+  </div>
+  
+  <div class="history-container" *ngIf="queryHistory.length > 0">
+    <div class="history-sidebar">
+      <h3 class="sidebar-title">您的旅遊紀錄</h3>
+      <ul class="query-list">
+        <li 
+          *ngFor="let query of queryHistory" 
+          [class.active]="selectedQuery && selectedQuery.id === query.id"
+          (click)="viewQueryDetails(query)" 
+          class="query-item"
+        >
+          <div class="query-content">
+            <div class="query-text">{{ truncateText(query.query) }}</div>
+            <div class="query-date">{{ formatDate(query.created_at) }}</div>
+          </div>
+          <button 
+            class="delete-btn" 
+            (click)="deleteQuery($event, query.id)" 
+            title="刪除記錄"
+          >
+            ✕
+          </button>
+        </li>
+      </ul>
+      
+      <!-- 分頁控制 -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button 
+          class="page-btn" 
+          [disabled]="currentPage === 0" 
+          (click)="changePage(currentPage - 1)"
+        >
+          上一頁
+        </button>
+        <span class="page-info">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button 
+          class="page-btn" 
+          [disabled]="currentPage === totalPages - 1" 
+          (click)="changePage(currentPage + 1)"
+        >
+          下一頁
+        </button>
+      </div>
+    </div>
+    
+    <div class="history-details" *ngIf="selectedQuery">
+      <div class="query-details">
+        <h3>旅遊查詢</h3>
+        <div class="query-full-text">{{ selectedQuery.query }}</div>
+        <div class="query-time">
+          <span>查詢時間：{{ formatDate(selectedQuery.created_at) }}</span>
+        </div>
+      </div>
+      
+      <div class="response-details" *ngIf="parsedResponse">
+        <h3>旅遊助手回覆</h3>
+        
+        <!-- 顯示旅遊回覆 -->
+        <div class="travel-response">
+          <p class="response-text">{{ parsedResponse }}</p>
+        </div>
+      </div>
+      
+      <div class="no-parsed-response" *ngIf="!parsedResponse">
+        <p>無法解析此查詢回應的詳細資訊。</p>
+      </div>
+      
+      <div class="actions">
+        <a routerLink="/product-comparison" class="new-query-btn">新旅遊查詢</a>
+      </div>
+    </div>
+  </div>
+</div>

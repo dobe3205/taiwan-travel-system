@@ -1,0 +1,57 @@
+<div class="container">
+  <h1 class="page-title">台灣旅遊助手</h1>
+  <p class="page-description">
+    輸入您的旅遊需求，我們將為您提供專業的旅遊建議和推薦。
+  </p>
+
+  <!-- 查詢範例 -->
+  <div class="query-examples" *ngIf="showExamples && chatMessages.length === 0">
+    <h3>您可以這樣問我：</h3>
+    <div class="examples-list">
+      <div class="example-item" *ngFor="let example of queryExamples">
+        <button (click)="useExample(example)" class="example-btn">{{ example }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 聊天記錄 -->
+  <div class="chat-container" *ngIf="chatMessages.length > 0">
+    <div class="chat-header">
+      <h3>對話記錄</h3>
+      <button class="reset-btn" (click)="resetChat()">開始新對話</button>
+    </div>
+    
+    <div class="chat-messages">
+      <div [ngClass]="{'message': true, 'user-message': message.type === 'user', 'system-message': message.type === 'system', 'error-message': message.type === 'error'}" 
+           *ngFor="let message of chatMessages">
+        <div class="message-sender">{{ message.type === 'user' ? '您' : '旅遊助手' }}</div>
+        <div class="message-content">{{ message.content }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 載入指示器 -->
+  <div class="loading-container" *ngIf="isLoading">
+    <app-loading-spinner [message]="'正在為您尋找最佳旅遊建議，請稍候...'" [size]="40"></app-loading-spinner>
+  </div>
+
+  <!-- 輸入區域 -->
+  <div class="query-form">
+    <div class="input-group">
+      <textarea 
+        [(ngModel)]="query" 
+        placeholder="請輸入您的旅遊問題，例如：「推薦台北三日遊行程」或「台南有哪些必吃美食」" 
+        rows="3" 
+        class="query-input"
+      ></textarea>
+      <button (click)="submitQuery()" class="submit-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">送出</span>
+        <span *ngIf="isLoading">處理中...</span>
+      </button>
+    </div>
+
+    <div *ngIf="errorMessage && chatMessages.length === 0" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>
