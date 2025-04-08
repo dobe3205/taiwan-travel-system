@@ -23,7 +23,6 @@ logger = logging.getLogger(__name__)
 class TravelRAGService:
     """
     台灣旅遊RAG系統，用於處理旅遊相關查詢
-    整合了向量檢索和語言模型生成
     """
     
     def __init__(self, gemini_api_key,cohere_api_key, **kwargs):
@@ -32,7 +31,7 @@ class TravelRAGService:
         
         Args:
             gemini_api_key: Google Gemini API金鑰
-            **kwargs: 其它參數（保留以保持與舊介面兼容）
+            **kwargs: 其它參數
         """
         # 設置環境變數
         os.environ["GOOGLE_API_KEY"] = gemini_api_key
