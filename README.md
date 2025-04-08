@@ -67,3 +67,7 @@ docker-compose down
 `cd eval_rag/` 
 執行`rag_eval.py` 
 `python rag_eval.py`
+
+## Contributors
+- 前端:sm29729443(sm29729443@gmail.com)
+- 後端和RAG:dobe3205(3205hh@gmail.com)
