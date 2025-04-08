@@ -63,10 +63,10 @@ docker-compose down
    model_name="gemini-2.0-flash"
    ```
 ## 運行方式
-進入專案資料夾
-`cd eval_rag/` 
-執行`rag_eval.py` 
-`python rag_eval.py`
+- 進入專案資料夾
+- `cd eval_rag/` 
+- 執行`rag_eval.py` 
+- `python rag_eval.py`
 
 ## Contributors
 - 前端:sm29729443(sm29729443@gmail.com)
