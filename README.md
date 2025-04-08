@@ -52,7 +52,7 @@ docker-compose down
 - python 3.12.7
 - `pip install -r requirements.txt`
 ### API 金鑰註冊
-請至 [langsmith] (https://smith.langchain.com/settings) 註冊API key
+請至 [langsmith](https://smith.langchain.com/settings) 註冊API key
 ### 環境設定
 1. clone專案或下載原始碼
 2. 在 `eval_rag/` 中建立.env檔案
@@ -63,4 +63,7 @@ docker-compose down
    model_name="gemini-2.0-flash"
    ```
 ## 運行方式
-進入專案資料夾`eval_rag/` 執行`rag_eval.py` `python rag_eval.py`
+進入專案資料夾
+`cd eval_rag/` 
+執行`rag_eval.py` 
+`python rag_eval.py`
