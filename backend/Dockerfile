@@ -9,7 +9,7 @@ COPY requirements.txt /code/
 COPY ./app /code/app
 COPY ./package /code/package
 COPY ./data /code/data
-COPY ./chroma_db /code/chroma_db
+
 
 ENV PYTHONPATH=/code
 # 安裝套件指令

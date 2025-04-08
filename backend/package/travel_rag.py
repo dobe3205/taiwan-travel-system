@@ -10,6 +10,8 @@ from langchain.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_core.rate_limiters import InMemoryRateLimiter
+from langchain_cohere import CohereRerank
+from langchain.retrievers import ContextualCompressionRetriever
 import torch
 import os
 import logging
@@ -24,7 +26,7 @@ class TravelRAGService:
     整合了向量檢索和語言模型生成
     """
     
-    def __init__(self, gemini_api_key, **kwargs):
+    def __init__(self, gemini_api_key,cohere_api_key, **kwargs):
         """
         初始化台灣旅遊RAG服務
         
@@ -34,7 +36,7 @@ class TravelRAGService:
         """
         # 設置環境變數
         os.environ["GOOGLE_API_KEY"] = gemini_api_key
-        
+        os.environ["COHERE_API_KEY"] = cohere_api_key
         # 設置資源路徑
         backend_dir = os.path.dirname(os.path.dirname(__file__))
         
@@ -120,7 +122,7 @@ class TravelRAGService:
             return None
     
     def split_documents(self, documents, chunk_size=300, chunk_overlap=50):
-        """將文件分割為更小的塊"""
+        """將文件分割為更小塊"""
         if not documents:
             return []
             
@@ -186,7 +188,7 @@ class TravelRAGService:
             logger.warning("沒有原始文件，只能使用向量相似度檢索")
             self.retriever = self.vector_store.as_retriever(
                 search_type="similarity",
-                search_kwargs={'k': 5}
+                search_kwargs={'k': 10}
             )
             return self.retriever
         
@@ -194,13 +196,13 @@ class TravelRAGService:
             # 設置向量相似度檢索器
             sim_retriever = self.vector_store.as_retriever(
                 search_type="similarity",
-                search_kwargs={'k': 5}
+                search_kwargs={'k': 10}
             )
             
             # 設置BM25檢索器
             bm25_retriever = BM25Retriever.from_documents(
                 documents=self.documents,
-                k=5
+                k=10
             )
             
             # 組合檢索器
@@ -214,9 +216,16 @@ class TravelRAGService:
                 llm=self.llm,
                 retriever=ensemble_retriever
             )
-            
+            cohere_reranker = CohereRerank(
+                top_n=10,
+                model="rerank-multilingual-v2.0"  # 支持中文
+            )
+
+            self.retriever = ContextualCompressionRetriever(
+                base_retriever=multi_retriever,
+                base_compressor=cohere_reranker  
+            )
             logger.info("檢索器設置完成")
-            self.retriever = multi_retriever
             return self.retriever
             
         except Exception as e:
@@ -225,7 +234,7 @@ class TravelRAGService:
             # 如果組合檢索器設置失敗，回退到簡單檢索器
             self.retriever = self.vector_store.as_retriever(
                 search_type="similarity",
-                search_kwargs={'k': 5}
+                search_kwargs={'k': 10}
             )
             return self.retriever
     

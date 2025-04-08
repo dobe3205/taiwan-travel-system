@@ -26,7 +26,7 @@ load_dotenv(dotenv_path)
 
 # 取得API key
 gemini_api_key = os.getenv("gemini_api_key")
-
+cohere_api_key= os.getenv("cohere_api_key")
 # 設定日誌
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -34,7 +34,8 @@ logger = logging.getLogger(__name__)
 # 初始化 台灣旅遊 RAG 服務
 try:
     rag_service = TravelRAGService(
-        gemini_api_key=gemini_api_key
+        gemini_api_key=gemini_api_key,
+        cohere_api_key=cohere_api_key
     )
     logger.info("台灣旅遊 RAG 服務初始化成功")
 except Exception as e:

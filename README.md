@@ -9,14 +9,16 @@
 
 ### API 金鑰註冊
 - 請至 [Google AI Studio](https://aistudio.google.com/apikey) 註冊 Gemini API Key
+- 請至 [Cohere](https://dashboard.cohere.com/api-keys) 註冊 Cohere API KEY
 
 
 ### 環境設定
 1. clone專案或下載原始碼
 2. 在 `backend/app/` 中建立.env檔案
-3. 在 `backend/app/.env` 中設定Gemini API 金鑰以及自訂的model_name(Gemini)、secret_key(可為任意字串)：
+3. 在 `backend/app/.env` 中設定 API 金鑰以及自訂的model_name(Gemini)、secret_key(可為任意字串)：
    ```
    gemini_api_key="YOUR_GEMINI_API_KEY" 
+   cohere_api_key="YOUR_COHERE_API_KEY"
    model_name="gemini-2.0-flash"
    secret_key="jwtsecretkey"
    ```
