@@ -27,10 +27,10 @@
 
 ### 使用 Docker
 ```bash
-# 構建所有容器，需要一點時間
+# 先進入專案資料夾，構建所有容器，需要一點時間
 docker-compose build
 
-# 啟動所有容器
+# 啟動所有容器，可使用瀏覽器查看
 docker-compose up -d
 
 # 停止所有容器
@@ -46,3 +46,21 @@ docker-compose down
 5. 稍等片刻，系統將產生景點資訊
 
 
+##   評估RAG
+專案資料夾eval_rag可在langsmith上評估RAG回復品質
+### 前置需求
+- python 3.12.7
+- `pip install -r requirements.txt`
+### API 金鑰註冊
+請至 [langsmith] (https://smith.langchain.com/settings) 註冊API key
+### 環境設定
+1. clone專案或下載原始碼
+2. 在 `eval_rag/` 中建立.env檔案
+3. 在 `eval_rag/.env` 中設定 API 金鑰以及自訂的model_name(Gemini)、secret_key(可為任意字串)：
+   ```
+   gemini_api_key="YOUR_GEMINI_API_KEY" 
+   langsmith_api_key="YOUR_LANGSMITH_API_KEY"
+   model_name="gemini-2.0-flash"
+   ```
+## 運行方式
+進入專案資料夾`eval_rag/` 執行`rag_eval.py` `python rag_eval.py`
