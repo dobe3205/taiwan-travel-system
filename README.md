@@ -47,7 +47,7 @@ docker-compose down
 
 
 ##   評估RAG
-專案目錄eval_rag可在langsmith上評估RAG回復品質
+專案目錄eval_rag可在langsmith上評估RAG品質
 ### 前置需求
 - python 3.12.7
 - `pip install -r requirements.txt`
